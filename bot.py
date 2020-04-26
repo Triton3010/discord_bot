@@ -4,23 +4,22 @@ from googlesearch import search
 from connector import get_connection
 import os 
 
-TOKEN = os.environ.get('BOT_TOKEN')
-
 client = commands.Bot(command_prefix = '!')
 
-''' handler function for when the bot is ready'''
+''' handler function for when the bot is ready '''
 @client.event
 async def on_ready():
     print('The bot is ready')
 
+
 ''' handler function handler for !google command '''
 @client.command()
 async def google(ctx, *args):
-    ''' if the user typed something after !google, then return results '''
     if args:
+        print('in google handler')
         search_query = ' '.join(args)
         connection = get_connection()
-
+        print(connection)
         ''' sql query to insert the search keyword made by the user in a table '''
         insert_sql = f"INSERT INTO search (user_id, search_keywords) VALUES ('{ctx.author}', '{search_query}')"
 
@@ -36,6 +35,7 @@ async def google(ctx, *args):
 
     else:
         await ctx.send('Please type in some keywords')
+
 
 ''' handler function for !recent command '''
 @client.command()
@@ -64,10 +64,12 @@ async def recent(ctx, *args):
     else:
         await ctx.send('Please type in some keywords')
 
+
 ''' handler function to return hey to user's hi '''
 @client.event
 async def on_message(message):
-    if 'hi' in message.content.lower():
+    if message.content.lower() == 'hi':
         await message.channel.send('hey')
+    await client.process_commands(message)
 
-client.run(TOKEN)
+client.run(os.environ.get('BOT_TOKEN'))
