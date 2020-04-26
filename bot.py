@@ -30,6 +30,7 @@ async def google(ctx, *args):
 
         mycursor.execute(insert_sql)
         connection.commit()
+        connection.close()
 
     else:
         await ctx.send('Please type in some keywords')
@@ -50,6 +51,7 @@ async def recent(ctx, *args):
         mycursor = connection.cursor()
         mycursor.execute(select_sql)
         myresult = mycursor.fetchall()
+        connection.close()
 
         if myresult:
             ''' return each previous search query found for the user '''
