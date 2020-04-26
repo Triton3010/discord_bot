@@ -17,10 +17,8 @@ async def on_ready():
 async def google(ctx, *args):
     ''' if the user typed something after !google, then return results '''
     if args:
-        print('in google handler')
         search_query = ' '.join(args)
         connection = get_connection()
-        print(connection)
         ''' sql query to insert the search keyword made by the user in a table '''
         insert_sql = f"INSERT INTO search (user_id, search_keywords) VALUES ('{ctx.author}', '{search_query}')"
 
@@ -32,7 +30,6 @@ async def google(ctx, *args):
 
         mycursor.execute(insert_sql)
         connection.commit()
-        print('inserted in db')
 
     else:
         await ctx.send('Please type in some keywords')
