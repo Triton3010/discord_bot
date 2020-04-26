@@ -15,6 +15,7 @@ async def on_ready():
 ''' handler function handler for !google command '''
 @client.command()
 async def google(ctx, *args):
+    ''' if the user typed something after !google, then return results '''
     if args:
         print('in google handler')
         search_query = ' '.join(args)
